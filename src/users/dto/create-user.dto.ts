@@ -4,3 +4,9 @@ export class CreateUserDto {
     email:string;
     password:string;
 }
+
+
+export class FindUser{
+    email:string;
+    password:string;
+}

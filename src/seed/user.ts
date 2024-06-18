@@ -1,7 +1,6 @@
 // src/db/seeds/user.seeder.ts
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
-import { DataSource } from 'typeorm';
-import { User } from 'src/users/user.entity';
+import { DataSource, InsertResult } from 'typeorm';
 import { genPassword } from 'src/helper/genralFunction';
 import faker from 'faker';
 import { Roles } from 'src/users/role.entity';
@@ -10,16 +9,18 @@ export default class UserSeeder implements Seeder {
   public async run(
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
-  ): Promise<void> {
+  ):Promise<InsertResult> {
     await dataSource.query('TRUNCATE "user" RESTART IDENTITY;');
 
     const roleRepo = dataSource.getRepository(Roles);
     const users = await createUser();
-    await roleRepo.save([
+    const userData =  roleRepo.create([
       { roles: 'USER', users: users },
-      { roles: 'ADMIN', users: [{name:"Krish", email:'Krish@gmail.com', password: await genPassword('test')}] },
+      { roles: 'ADMIN', users: [{name:"Krish", email:'Krish@gmail.com', password:'test'}] },
     ]);
+    return await roleRepo.insert(userData);
   }
+  
 }
 
 const createUser = async () => {

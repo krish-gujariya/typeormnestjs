@@ -20,8 +20,9 @@ const config = {
   username: username,
   password: password,
   database: database,
-  entities: [join(__dirname, 'dist/**/*.entity.{.ts,.js}')],
+  entities: [join(__dirname, 'src/**/*.entity.{.ts,.js}')],
   migrations: [join(__dirname, 'src/migration/*{.ts,.js}')],
+  seeds:[join(__dirname,"src/seed/*{.ts,.js}")],
   autoLoadEntities: true,
   synchronize: false,
 };

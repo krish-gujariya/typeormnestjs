@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Roles } from "./role.entity";
+import { genPassword } from "src/helper/genralFunction";
 
 @Entity('users')
 export class User{
@@ -17,7 +18,7 @@ export class User{
 
     @Column()
     password:string;
-    
+
     @CreateDateColumn()
     createdAt: Date
     
@@ -30,5 +31,10 @@ export class User{
     @ManyToOne((role)=>Roles)
     @JoinColumn({name:'role_id'})
     roles:Roles
+
+    @BeforeInsert()
+    public async hashpass(){
+        this.password = await genPassword(this.password);
+    }    
     
 }

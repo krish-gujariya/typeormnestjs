@@ -23,7 +23,11 @@ export const catchError = (error: unknown) => {
   return returnObjectFunction(false, 500, `Something Went wrong...`);
 };
 
-export const fetchResponseFunc = (res: Response, data: any, message?: string) => {
+export const fetchResponseFunc = (
+  res: Response,
+  data: any,
+  message?: string,
+) => {
   if (data.success) {
     res
       .status(data.statusCode)

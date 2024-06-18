@@ -1,34 +1,35 @@
 import { Logger } from '@nestjs/common';
 import { registerAs } from '@nestjs/config';
 import { config as dotenvConfig } from 'dotenv';
-import { join } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import {  runSeeders,SeederOptions} from 'typeorm-extension';
 
 dotenvConfig();
 const penv = process.env;
 
-const host = penv.DB_HOST as string,
-  username = penv.DB_UNAME as string,
-  password = penv.DB_PASSWORD as string,
-  database = penv.DATABASE as string,
-  dbPort = penv.PORT as string;
+const host = penv.DB_HOST,
+  username = penv.DB_UNAME,
+  password = penv.DB_PASSWORD,
+  database = penv.DATABASE,
+  dbPort = penv.PORT;
 
 const config = {
   type: 'mysql',
-  host: host,
-  port: parseInt(dbPort),
-  username: username,
-  password: password,
-  database: database,
-  entities: [join(__dirname, 'src/**/*.entity.{.ts,.js}')],
-  migrations: [join(__dirname, 'src/migration/*{.ts,.js}')],
-  seeds:[join(__dirname,"src/seed/*{.ts,.js}")],
+  host: `${host}`,
+  port: `${dbPort}`,
+  username: `${username}`,
+  password: `${password}`,
+  database: `${database}`,
+  entities: ['dist/**/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
+  migrations: ['dist/migrations/*{.ts,.js}'],
+  seeds: ['dist/seed/*.seeder*{.ts,.js}'],
+  factories:['dist/seed/*.factory*{.ts,.js}'],
   autoLoadEntities: true,
-  synchronize: false,
+  synchronize: true,
 };
 
 export default registerAs('typeorm', () => config);
-export const connectionSource = new DataSource(config as DataSourceOptions);
+export const connectionSource = new DataSource(config as DataSourceOptions & SeederOptions  );
 
 connectionSource
   .initialize()
@@ -38,3 +39,10 @@ connectionSource
   .catch((error) => {
     Logger.error(error);
   });
+
+  
+runSeeders(connectionSource).then(()=>{
+  Logger.log("Seeder execute successfully")
+}).catch((error)=>{
+  Logger.error(error)
+})

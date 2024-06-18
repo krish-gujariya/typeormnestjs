@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Logger } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Res,
+  Logger,
+} from '@nestjs/common';
 import { Response } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, FindUser } from './dto/create-user.dto';
@@ -19,13 +29,12 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Post('login')
-  async findOne(@Body() userData:FindUser, @Res() res:Response) {
-    Logger.log(userData)
-    const data = await  this.usersService.findUserByEmail(userData);
-      console.log(data);
-      
-
+  @Post('create')
+  async findOne(@Body() userData: CreateUserDto, @Res() res: Response) {
+    Logger.log(userData);
+    const data = await this.usersService.create(userData);
+    Logger.log(data);
+    return data;
   }
 
   @Patch(':id')

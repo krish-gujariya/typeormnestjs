@@ -4,5 +4,3 @@
 // export const dataSourceOptions: DataSourceOptions & SeederOptions = {
 //   seeds: ['src/seeds/*{.js, .ts}'],
 // };
-
-

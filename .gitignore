@@ -2,7 +2,9 @@
 /dist
 /node_modules
 /build
-
+/src/migrations
+migrate.bash
+.gitignore
 # Logs
 logs
 *.log

@@ -11,8 +11,8 @@ import { returnObjectFunction } from 'src/helper/genralFunction';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>
-  ){}
+    private userRepository: Repository<User>,
+  ) {}
   create(createUserDto: CreateUserDto) {
     const data = this.userRepository.create(createUserDto);
     return this.userRepository.insert(data);
@@ -22,16 +22,16 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  async findUserByEmail(userData:FindUser) {
+  async findUserByEmail(userData: FindUser) {
     try {
-      const data = await this.userRepository.findOne({where:{email:userData.email}});
-      if(data.email){
-        return returnObjectFunction(true,201,`User finded..`)
-      }else{
-        return returnObjectFunction(false,404,`User doesn't Exists...`)
+      const data = await this.userRepository.findOne({
+        where: { email: userData.email },
+      });
+      if (data.email) {
+        return returnObjectFunction(true, 201, `User finded..`);
+      } else {
+        return returnObjectFunction(false, 404, `User doesn't Exists...`);
       }
-
-      
     } catch (error) {
       return catchError(error);
     }

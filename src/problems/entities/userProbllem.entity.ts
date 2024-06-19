@@ -14,6 +14,18 @@ export class UserAcceptedProblems{
     @Column()
     problem_id:number
 
+    @Column()
+    language: string
+
+    @Column()
+    execution_time: number
+
+    @Column()
+    memory_usage: number
+
+    @Column()
+    status:string
+
     @ManyToOne((user)=> User)
     @JoinColumn({name:"user_id"})
     user: User

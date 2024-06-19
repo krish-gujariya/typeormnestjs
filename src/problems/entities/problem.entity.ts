@@ -10,7 +10,7 @@ export enum Difficulty{
 
 @Entity('problems')
 export class Problem {
-    @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()

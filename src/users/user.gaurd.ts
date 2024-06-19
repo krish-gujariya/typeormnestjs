@@ -27,9 +27,12 @@ export class AuthGaurd implements CanActivate{
              return false;
         }else{
             try {
-                const payload =  await this.jwtService.verifyAsync(token,{secret:process.env.TOKEN});                
+                    
+                const payload =  await this.jwtService.verifyAsync(token,{secret:process.env.TOKEN});  
+                              
                 const data = await this.userService.findUserByEmail(payload);
                 if(data.success){
+                    
                     request['user'] = data.result;
                     return true;
                 } else{

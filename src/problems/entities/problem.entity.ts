@@ -1,5 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserAcceptedProblems } from './userProbllem.entity';
+import { Likes } from "src/likes/entities/like.entity";
+import { Discussion } from "src/discussions/entities/discussion.entity";
 
 export enum Difficulty{
     easy="Easy",
@@ -42,4 +44,10 @@ export class Problem {
 
   @OneToMany(()=>UserAcceptedProblems, (userProblem)=> userProblem.problem)
   userProblems: UserAcceptedProblems[]
+
+  @OneToMany(()=> Discussion, (disscussion)=> disscussion.problem)
+  disscussions: Discussion[]
+
+  @OneToMany (()=>Likes, (likes)=>  likes.problem )
+  userLikes:Likes[]
 }

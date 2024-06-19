@@ -1,11 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDiscussionDto } from './dto/create-discussion.dto';
 import { UpdateDiscussionDto } from './dto/update-discussion.dto';
+import { Repository } from 'typeorm';
+import { Discussion } from './entities/discussion.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
 
 @Injectable()
 export class DiscussionsService {
-  create(createDiscussionDto: CreateDiscussionDto) {
-    return 'This action adds a new discussion';
+  constructor(
+    @InjectRepository(Discussion)
+    private discussRepo: Repository<Discussion>
+  ){}
+  async create(createDiscussionDto: CreateDiscussionDto) {
+    try {
+      const data =   this.discussRepo.create(createDiscussionDto);
+      await this.discussRepo.save(data);
+      return returnObjectFunction(true,201,"Comment added successfully...")
+    } catch (error) {
+      return catchError(error);
+    }
   }
 
   findAll() {

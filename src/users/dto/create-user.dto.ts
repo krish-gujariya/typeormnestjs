@@ -1,6 +1,33 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiBody, ApiProperty } from "@nestjs/swagger";
+
+
+export class FindUser {
+
+  @IsNotEmpty()
+  @IsString()
+  @IsEmail()
+  
+  @ApiProperty({
+    example:"test@gmail.com",
+    required:true
+  })
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({
+    example:"test",
+    required:true
+  })
+  password: string;
+}
+
+
 export class CreateUserDto {
+
+  constructor(private findUser: FindUser){}
+
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
@@ -23,30 +50,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    example:"$rf6%eES4%^",
+    example:"test",
     required:true
   })
   password: string;
+
 }
 
-export class FindUser {
-
-  @IsNotEmpty()
-  @IsString()
-  @IsEmail()
   
-  @ApiProperty({
-    example:"Krish@gmail.com",
-    required:true
-  })
-  email: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @ApiProperty({
-    example:"Krish",
-    required:true
-  })
-  password: string;
-}
-

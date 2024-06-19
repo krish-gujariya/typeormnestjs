@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 import { Repository } from 'typeorm';
 import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
 import { Problem } from './entities/problem.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ProblemsService {
-  constructor(private problemRepo : Repository<Problem>){}
+  constructor(
+    @InjectRepository(Problem)
+    private problemRepo : Repository<Problem>){}
   async create(createProblemDto: CreateProblemDto) {
     try {
-      const data = this.problemRepo.create(createProblemDto);
+      
+      const data =  this.problemRepo.create(createProblemDto);
       await this.problemRepo.save(data);
       return returnObjectFunction(true,201,`Problem created successfully...`)
     } catch (error) {

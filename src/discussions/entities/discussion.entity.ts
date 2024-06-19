@@ -1,4 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Likes } from "src/likes/entities/like.entity";
+import { Problem } from "src/problems/entities/problem.entity";
+import { User } from "src/users/entities/user.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 export enum EntityModel{
     disscussion= "Discussion",
@@ -6,6 +9,7 @@ export enum EntityModel{
 }
 
 @Entity("discussions")
+@Unique(['user_id', 'entity_id', 'entity_type'])
 export class Discussion {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,12 +26,11 @@ export class Discussion {
   @Column()
   content: string
 
-  @Column()
+  @Column({default:0})
   likes: number
 
-  @Column()
+  @Column({default:0})
   dislike: number
-
 
   @CreateDateColumn()
   createdAt: Date;
@@ -37,6 +40,25 @@ export class Discussion {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(()=> Likes, (likes)=> likes.disscussion)
+  userLikes:Likes[]
+
+  @ManyToOne(()=> User, (user=> user.discussions))
+  @JoinColumn({name:'user_id'})
+  user:User
+
+  @ManyToOne(()=> Problem, (problem)=> problem.disscussions)
+  @JoinColumn({name:"entity_id"})
+  problem: Problem;
+
+  @ManyToOne(()=> Discussion, (disscussion)=> disscussion.parentDisscussion)
+  @JoinColumn({name:"entity_id"})
+  childDisscussion: Discussion
+
+
+  @OneToMany(()=> Discussion, (disscussion)=>disscussion.childDisscussion)
+  parentDisscussion: Discussion[]
 
 
 }

@@ -1,9 +1,11 @@
 import { Discussion } from "src/discussions/entities/discussion.entity";
+import { Problem } from "src/problems/entities/problem.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity("likes")
-export class Like {
+@Unique(["user_id","entity_id", "entity_type"])
+export class Likes {
 
     @PrimaryGeneratedColumn()
     id:number
@@ -12,16 +14,24 @@ export class Like {
     user_id:number
 
     @Column()
-    entity_type: string
+    entity_type: "Disscussion"|"Problem"
 
     @Column()
     entity_id:number
 
-    @ManyToOne((user)=> User)
+    @Column()
+    like:"LIKE"|"DISLIKE"
+
+    @ManyToOne(()=> User, (user)=> user.likes)
     @JoinColumn({name:"user_id"})
     users:User
 
-    // @ManyToOne((disscussion)=>Discussion)
-    // @JoinColumn({ent})
+    @ManyToOne(()=>Discussion, (disscussion)=> disscussion.userLikes)
+    @JoinColumn({name:"entity_id"})
+    disscussion :Discussion
+
+    @ManyToOne(()=>Problem, (problem)=> problem.userLikes)
+    @JoinColumn({name:"entity_id"})
+    problem:Problem
 
 }

@@ -48,8 +48,9 @@ export class UsersController {
   @ApiConsumes('application/x-www-form-urlencoded')
   @ApiResponse({status:201, description:'User logged in successfully'})
   async login(@Body() userdata: FindUser, @Res() response: Response) {
+      
     const data = await this.usersService.verifyUser(userdata);
-    
+        
     if (data.success) {
       
       const token = await this.jwtService.signAsync(userdata.email);

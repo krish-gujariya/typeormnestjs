@@ -6,11 +6,14 @@ import { fetchResponseFunc } from 'src/helper/genralFunction';
 import { Response } from 'express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGaurd } from 'src/users/user.gaurd';
+
+@UseGuards(AuthGaurd)
 @ApiBearerAuth()
 @Controller('problems')
 export class ProblemsController {
   constructor(private readonly problemsService: ProblemsService) {}
-  @UseGuards(AuthGaurd)
+
+  // @UseGuards(AuthGaurd)
   @ApiTags("Problems")
   @ApiConsumes('application/x-www-form-urlencoded')
   @ApiCreatedResponse()

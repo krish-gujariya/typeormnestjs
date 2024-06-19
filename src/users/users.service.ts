@@ -27,7 +27,7 @@ export class UsersService {
 
   async getUserProfile(id:number) {
     try {
-        const data =await this.userRepository.findOne({where:{id:id}});
+        const data =await this.userRepository.findOne({where:{id:id}, select:{name:true, email:true, }});
         if(data.id){
             return returnObjectFunction(true,201, `User profile Successfully..`)
         }else{
@@ -54,10 +54,12 @@ export class UsersService {
 
   async verifyUser(userData: FindUser) {
     try {
+      
       const data = await this.userRepository.findOne({
         where: { email: userData.email },
-      });        
-      if (data.email) {
+      }); 
+             
+      if (data) {
         const validate = await verify(data.password, userData.password);
         if(validate){
           return returnObjectFunction(true,201,`Login Successfull...`, data)

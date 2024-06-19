@@ -15,3 +15,4 @@ export default class UserSeeder implements Seeder {
     await userFactory.saveMany(5);
   }
 }
+ 

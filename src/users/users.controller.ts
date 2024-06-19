@@ -7,27 +7,59 @@ import {
   Param,
   Delete,
   Res,
-  Logger,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Response,Request } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto, FindUser } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { isPromise } from 'typeorm-extension';
 import { generalResponse } from 'src/helper/generalResponseFunction';
-
+import { fetchResponseFunc } from 'src/helper/genralFunction';
+import { JwtService } from '@nestjs/jwt';
+import { AuthGaurd } from './user.gaurd';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { IRequest, tempI } from 'src/types/generalInterface';
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    // private jwtService: JwtService
+    private jwtService: JwtService,
+  ) {}
 
-    ) {}
 
+  @ApiTags('User')
+  @Post('registration')
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiCreatedResponse()
+  @ApiResponse({ status: 403, description: 'Forbidden' })
+  @ApiBody({
+    type: CreateUserDto,
+  })
+  async findOne(@Body() userData: CreateUserDto, @Res() res: Response) {
+
+    const data = await this.usersService.create(userData);
+    fetchResponseFunc(res, data, data.message);
+  }
+
+  @ApiTags("User")
   @Post('login')
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiResponse({status:201, description:'User logged in successfully'})
   async login(@Body() userdata: FindUser, @Res() response: Response) {
-    const data = await this.usersService.findUserByEmail(userdata);
+    const data = await this.usersService.verifyUser(userdata);
+    
     if (data.success) {
+      
+      const token = await this.jwtService.signAsync(userdata.email);
+      return response
+        .status(201)
+        .json({
+          success: true,
+          message: `User login successfully...`,
+          token: token,
+        });
     } else {
       return generalResponse(
         response,
@@ -39,17 +71,12 @@ export class UsersController {
     }
   }
 
+  @UseGuards(AuthGaurd)
+  @ApiTags("User")
   @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Post('create')
-  async findOne(@Body() userData: CreateUserDto, @Res() res: Response) {
-    Logger.log(userData);
-    const data = await this.usersService.create(userData);
-    Logger.log(data);
-    return data;
+  async userProfile(@Req() req:IRequest, @Res() res:Response) {
+    const data = await this.usersService.getUserProfile(req.user.id);
+    return fetchResponseFunc(res,data,data.message)
   }
 
   @Patch(':id')

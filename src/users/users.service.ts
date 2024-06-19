@@ -13,16 +13,46 @@ export class UsersService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    const data = this.userRepository.create(createUserDto);
-    return this.userRepository.insert(data);
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const data = this.userRepository.create(createUserDto);
+      await this.userRepository.insert(data);
+
+      return returnObjectFunction(true,201,`User registered succcessfully..`);
+      
+    } catch (error) {
+      return catchError(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async getUserProfile(id:number) {
+    try {
+        const data =await this.userRepository.findOne({where:{id:id}});
+        if(data.id){
+            return returnObjectFunction(true,201, `User profile Successfully..`)
+        }else{
+          return returnObjectFunction(false,404, `User Profile not found...`)
+        }
+    } catch (error) {
+      return catchError(error)
+    }
   }
 
-  async findUserByEmail(userData: FindUser) {
+  async findUserByEmail(email:string){
+    try {
+      const data = await this.userRepository.findOne({where:{email:email}});
+      if(data.id){
+          return returnObjectFunction(true,201,"User Profile found...", data)
+      }else{
+        return returnObjectFunction(false,404,'User doesnt exists...');
+      }
+    } catch (error) {
+      return catchError(error);
+    }
+
+  }
+
+  async verifyUser(userData: FindUser) {
     try {
       const data = await this.userRepository.findOne({
         where: { email: userData.email },
@@ -30,7 +60,7 @@ export class UsersService {
       if (data.email) {
         const validate = await verify(data.password, userData.password);
         if(validate){
-          return returnObjectFunction(true,201,`Login Successfull...`)
+          return returnObjectFunction(true,201,`Login Successfull...`, data)
         }else{
           return returnObjectFunction(false,401,`Invalid Credentials...`)
         }

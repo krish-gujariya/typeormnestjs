@@ -5,6 +5,6 @@ export default setSeederFactory(User, (faker)=>{
     const user = new User();
     user.name = faker.person.firstName();
     user.email = faker.internet.email();
-    user.password = faker.person.firstName();
+    user.password = user.name;
     return user; 
 })

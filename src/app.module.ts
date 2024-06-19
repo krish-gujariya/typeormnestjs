@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import typeorm, { connectionSource } from './datasource/typeorm.module';
+import typeorm,{ connectionSource } from './datasource/typeorm.module';
 import { ProblemsModule } from './problems/problems.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { DiscussionsModule } from './discussions/discussions.module';

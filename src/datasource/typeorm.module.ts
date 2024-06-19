@@ -20,10 +20,11 @@ const config = {
   username: `${username}`,
   password: `${password}`,
   database: `${database}`,
+  
   entities: ['dist/**/**/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
   migrations: ['dist/migrations/*{.ts,.js}'],
-  seeds: ['dist/seed/*.seeder*{.ts,.js}'],
-  factories:['dist/seed/*.factory*{.ts,.js}'],
+  seeds: ['dist/seeding/seed/*.seeder.*{js,ts}'],
+  factories:['dist/seeding/factory/*.factory*{.js, .ts}'],
   autoLoadEntities: true,
   synchronize: false,
 };
@@ -41,8 +42,8 @@ connectionSource
   });
 
 
-// runSeeders(connectionSource).then(()=>{
-//   Logger.log("Seeder execute successfully")
-// }).catch((error)=>{
-//   Logger.error(error)
-// })
+runSeeders(connectionSource).then(()=>{
+  Logger.log("Seeder execute successfully")
+}).catch((error)=>{
+  Logger.error(error)
+})

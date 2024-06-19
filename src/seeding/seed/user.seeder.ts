@@ -1,4 +1,4 @@
-// src/db/seeds/user.seeder.ts
+
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { InsertResult, DataSource } from 'typeorm';
 import { Roles } from 'src/users/entities/role.entity';
@@ -8,11 +8,10 @@ export default class UserSeeder implements Seeder {
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
-    const roleRepo = dataSource.getRepository(Roles);
-    const data = roleRepo.create([{roles:"USER"},{roles:"ADMIN"}]);
-    await roleRepo.insert(data);
+    // const roleRepo = dataSource.getRepository(Roles);
+    //  roleRepo.save([{roles:"USER"},{roles:"ADMIN"}]);
     const userFactory = factoryManager.get(User);
-    await userFactory.saveMany(5);
+    await userFactory.saveMany(10);
   }
 }
  

@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserAcceptedProblems } from './userProbllem.entity';
 
-enum Difficulty{
+export enum Difficulty{
     easy="Easy",
     medium="Medium",
     hard="Hard",
@@ -22,13 +22,13 @@ export class Problem {
   @Column({type:'enum',enum:Difficulty,default:Difficulty.easy})
   difficulty:"Easy"|"Medium"|"Hard"|"Extreme"
 
-  @Column()
+  @Column({default:0})
   acceptance_rate:number
 
-  @Column()
+  @Column({default:0})
   likes:number
 
-  @Column()
+  @Column({default:0})
   dislikes:number
 
   @CreateDateColumn()

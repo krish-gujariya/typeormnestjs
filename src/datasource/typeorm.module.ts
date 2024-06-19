@@ -40,9 +40,9 @@ connectionSource
     Logger.error(error);
   });
 
-  
-runSeeders(connectionSource).then(()=>{
-  Logger.log("Seeder execute successfully")
-}).catch((error)=>{
-  Logger.error(error)
-})
+
+// runSeeders(connectionSource).then(()=>{
+//   Logger.log("Seeder execute successfully")
+// }).catch((error)=>{
+//   Logger.error(error)
+// })

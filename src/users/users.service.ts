@@ -4,8 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { catchError } from 'rxjs';
-import { returnObjectFunction } from 'src/helper/genralFunction';
+import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
+import { verify } from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -26,9 +26,15 @@ export class UsersService {
     try {
       const data = await this.userRepository.findOne({
         where: { email: userData.email },
-      });
+      });        
       if (data.email) {
-        return returnObjectFunction(true, 201, `User finded..`);
+        const validate = await verify(data.password, userData.password);
+        if(validate){
+          return returnObjectFunction(true,201,`Login Successfull...`)
+        }else{
+          return returnObjectFunction(false,401,`Invalid Credentials...`)
+        }
+
       } else {
         return returnObjectFunction(false, 404, `User doesn't Exists...`);
       }

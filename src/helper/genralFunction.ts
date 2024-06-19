@@ -1,6 +1,9 @@
 import { Logger, Res } from '@nestjs/common';
 import { hash } from 'argon2';
 import { Response } from 'express';
+
+
+
 export const genPassword = async (data: string) => {
   try {
     return await hash(data);
@@ -18,10 +21,14 @@ export const returnObjectFunction = (
   return { success: flag, message: message, result: data, statusCode: code };
 };
 
+
+
 export const catchError = (error: unknown) => {
   Logger.error(error);
   return returnObjectFunction(false, 500, `Something Went wrong...`);
 };
+
+
 
 export const fetchResponseFunc = (
   res: Response,

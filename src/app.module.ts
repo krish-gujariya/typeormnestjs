@@ -5,6 +5,11 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeorm, { connectionSource } from './datasource/typeorm.module';
+import { ProblemsModule } from './problems/problems.module';
+import { SubmissionsModule } from './submissions/submissions.module';
+import { DiscussionsModule } from './discussions/discussions.module';
+import { LikesModule } from './likes/likes.module';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -21,8 +26,20 @@ import typeorm, { connectionSource } from './datasource/typeorm.module';
       useFactory: async (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
+    RouterModule.register([
+      
+    ]),
 
     UsersModule,
+
+    ProblemsModule,
+
+    SubmissionsModule,
+
+    DiscussionsModule,
+
+    LikesModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],

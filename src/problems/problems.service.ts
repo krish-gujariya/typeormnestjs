@@ -1,15 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
+import { Repository } from 'typeorm';
+import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
+import { Problem } from './entities/problem.entity';
 
 @Injectable()
 export class ProblemsService {
-  create(createProblemDto: CreateProblemDto) {
-    return 'This action adds a new problem';
+  constructor(private problemRepo : Repository<Problem>){}
+  async create(createProblemDto: CreateProblemDto) {
+    try {
+      const data = this.problemRepo.create(createProblemDto);
+      await this.problemRepo.save(data);
+      return returnObjectFunction(true,201,`Problem created successfully...`)
+    } catch (error) {
+      return catchError(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all problems`;
+  async findAll() {
+    try {
+        const data = await this.problemRepo.find({where:{}});
+        if(data.length==0){
+          return returnObjectFunction(false,404,`No record found...`);
+        }else{
+          return returnObjectFunction(true,201,`Problem data retrived successfully..`, data);
+        }
+    } catch (error) {
+      return catchError(error);
+    }
   }
 
   findOne(id: number) {

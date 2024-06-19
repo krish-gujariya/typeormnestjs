@@ -8,7 +8,6 @@ async function bootstrap() {
   .setTitle('Problem Solving Platform')
   .setDescription('Lists of problem solving platform apis')
   .setVersion('1.0')
-  .addTag('problem_solving')
   .build();
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);

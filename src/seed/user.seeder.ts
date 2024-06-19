@@ -1,8 +1,8 @@
 // src/db/seeds/user.seeder.ts
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { InsertResult, DataSource } from 'typeorm';
-import { User } from 'src/users/user.entity';
-import { Roles } from 'src/users/role.entity';
+import { Roles } from 'src/users/entities/role.entity';
+import { User } from 'src/users/entities/user.entity';
 export default class UserSeeder implements Seeder {
   public async run(
     dataSource: DataSource,

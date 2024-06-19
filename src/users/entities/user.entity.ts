@@ -6,12 +6,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Roles } from './role.entity';
 import { genPassword } from 'src/helper/genralFunction';
+import { UserAcceptedProblems } from 'src/problems/entities/userProbllem.entity';
 
 @Entity('users')
 export class User {
@@ -42,6 +44,10 @@ export class User {
   @ManyToOne((role) => Roles)
   @JoinColumn({ name: 'role_id' })
   roles: Roles;
+
+
+  @OneToMany(()=>UserAcceptedProblems, (userProblem)=> userProblem.user)
+  userProblems: UserAcceptedProblems[]
 
   @BeforeInsert()
   public async hashpass() {

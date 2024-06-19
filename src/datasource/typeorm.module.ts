@@ -20,12 +20,12 @@ const config = {
   username: `${username}`,
   password: `${password}`,
   database: `${database}`,
-  entities: ['dist/**/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
+  entities: ['dist/**/**/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
   migrations: ['dist/migrations/*{.ts,.js}'],
   seeds: ['dist/seed/*.seeder*{.ts,.js}'],
   factories:['dist/seed/*.factory*{.ts,.js}'],
   autoLoadEntities: true,
-  synchronize: true,
+  synchronize: false,
 };
 
 export default registerAs('typeorm', () => config);

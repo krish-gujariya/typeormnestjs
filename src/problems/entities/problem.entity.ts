@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserAcceptedProblems } from './userProbllem.entity';
 
 enum Difficulty{
     easy="Easy",
@@ -39,4 +40,6 @@ export class Problem {
   @DeleteDateColumn()
   deletedAt: Date;
 
+  @OneToMany(()=>UserAcceptedProblems, (userProblem)=> userProblem.problem)
+  userProblems: UserAcceptedProblems[]
 }

@@ -78,10 +78,17 @@ export class UsersService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
+    try {
+      const data  = this.userRepository.update(id,updateUserDto);
+    } catch (error) {
+      
+    }
     return `This action updates a #${id} user`;
   }
 
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+
 }

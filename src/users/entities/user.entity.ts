@@ -25,6 +25,21 @@ export class User {
   @Column()
   name: string;
 
+  @Column({nullable:true})
+  gender: string;
+
+  @Column({nullable:true})
+  city: string;
+
+  @Column({nullable:true})
+  country: string;
+
+  @Column({nullable:true})
+  birthdate: Date;
+
+  @Column({nullable:true})
+  summary: string;
+
   @Column({ unique: true })
   email: string;
 
@@ -33,6 +48,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({nullable:true})
+  profileImg:string
 
   @CreateDateColumn()
   createdAt: Date;

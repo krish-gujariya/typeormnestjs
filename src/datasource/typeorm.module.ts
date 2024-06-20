@@ -22,11 +22,10 @@ const config = {
   database: `${database}`,
   
   entities: ['dist/**/**/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
-  migrations: ['dist/migrations/*{.ts,.js}'],
+  migrations: ['**/migrations/*{.ts,.js}'],
   seeds: ['dist/seeding/seed/*.seeder.*{js,ts}'],
   factories:['dist/seeding/factory/*.factory*{.js, .ts}'],
   autoLoadEntities: true,
-  synchronize: false,
 };
 
 export default registerAs('typeorm', () => config);

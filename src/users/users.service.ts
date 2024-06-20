@@ -39,7 +39,7 @@ export class UsersService {
           {problem:{title:"Problem6", description:"Description6"}},
       ]
       });
-      await this.userRepository.insert(data);
+      await this.userRepository.save(data);
 
       return returnObjectFunction(true, 201, `User registered succcessfully..`);
     } catch (error) {

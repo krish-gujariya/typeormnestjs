@@ -14,7 +14,7 @@ import { generalResponse } from 'src/helper/generalResponseFunction';
 import { fetchResponseFunc } from 'src/helper/genralFunction';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGaurd } from './user.gaurd';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IRequest, tempI } from 'src/types/generalInterface';
 @ApiBearerAuth()
 @Controller('users')

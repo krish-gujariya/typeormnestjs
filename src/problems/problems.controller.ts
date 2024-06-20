@@ -37,19 +37,4 @@ export class ProblemsController {
     return fetchResponseFunc(res,data,data.message);
   }
 
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.problemsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProblemDto: UpdateProblemDto) {
-    return this.problemsService.update(+id, updateProblemDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.problemsService.remove(+id);
-  }
 }

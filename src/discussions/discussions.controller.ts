@@ -25,23 +25,5 @@ export class DiscussionsController {
      return fetchResponseFunc(res,data,data.message);
   }
 
-  @Get()
-  findAll() {
-    return this.discussionsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.discussionsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDiscussionDto: UpdateDiscussionDto) {
-    return this.discussionsService.update(+id, updateDiscussionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.discussionsService.remove(+id);
-  }
+  
 }

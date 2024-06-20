@@ -27,15 +27,13 @@ export class UsersController {
 
   @ApiTags('User')
   @Post('registration')
-  // @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiConsumes('application/x-www-form-urlencoded')
   @ApiCreatedResponse()
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiBody({
     type: CreateUserDto,
   })
-  async findOne(@Body() userData: CreateUserDto, @Res() res: Response) {
-    console.log(userData);
-    
+  async register(@Body() userData: CreateUserDto, @Res() res: Response) {    
     const data = await this.usersService.create(userData);
     fetchResponseFunc(res, data, data.message);
   }

@@ -9,10 +9,10 @@ export default class UserSeeder implements Seeder {
   ): Promise<any> {
     const roleRepo = dataSource.getRepository(Roles);
     const data = roleRepo.create([
-      { roles: 'USER', users: [{name:"test", email:"test@gmail.com", password:"test"},] },
+      { roles: 'USER' , users: [{name:"test", email:"test@gmail.com", password:"test"},] },
       { roles: 'ADMIN',users: [{name:"Krish Gujariya", email:"gkg@gmail.com", password:"test"},]  },
     ]);
-    
+    await roleRepo.save(data);
     const userFactory = factoryManager.get(User);
     await userFactory.saveMany(10);
   }

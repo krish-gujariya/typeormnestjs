@@ -41,23 +41,15 @@ export class Discussion {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(()=> Likes, (likes)=> likes.disscussion)
+  @OneToMany(()=> Likes, (likes)=> likes.entity_id)
   userLikes:Likes[]
 
   @ManyToOne(()=> User, (user=> user.discussions))
   @JoinColumn({name:'user_id'})
   user:User
 
-  @ManyToOne(()=> Problem, (problem)=> problem.disscussions)
-  @JoinColumn({name:"entity_id"})
-  problem: Problem;
 
-  @ManyToOne(()=> Discussion, (disscussion)=> disscussion.parentDisscussion)
-  @JoinColumn({name:"entity_id"})
-  childDisscussion: Discussion
-
-
-  @OneToMany(()=> Discussion, (disscussion)=>disscussion.childDisscussion)
+  @OneToMany(()=> Discussion, (disscussion)=>disscussion.entity_id)
   parentDisscussion: Discussion[]
 
 

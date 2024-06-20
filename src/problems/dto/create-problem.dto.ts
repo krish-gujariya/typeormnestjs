@@ -26,7 +26,13 @@ export class CreateProblemDto {
     })
     difficulty: Difficulty;
 
-   
+    user_id:number;
   
+
+}
+
+export class Likes{
+  user_id:number;
+  likes:"LIKE"|"UNLIKE"
 
 }

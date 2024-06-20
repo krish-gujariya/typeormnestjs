@@ -48,7 +48,6 @@ export class FindUser {
 
 export class CreateUserDto {
 
-  constructor(private findUser: FindUser){}
 
   @IsNotEmpty()
   @IsString()
@@ -76,9 +75,6 @@ export class CreateUserDto {
     required:true
   })
   password: string;
-
-  @ApiProperty({required:true, items:{}})
-  disscussions: UserDisscussionDto[]
   
 }
 

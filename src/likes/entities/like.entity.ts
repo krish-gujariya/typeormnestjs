@@ -26,12 +26,5 @@ export class Likes {
     @JoinColumn({name:"user_id"})
     users:User
 
-    @ManyToOne(()=>Discussion, (disscussion)=> disscussion.userLikes)
-    @JoinColumn({name:"entity_id"})
-    disscussion :Discussion
-
-    @ManyToOne(()=>Problem, (problem)=> problem.userLikes)
-    @JoinColumn({name:"entity_id"})
-    problem:Problem
 
 }

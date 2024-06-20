@@ -45,9 +45,9 @@ export class Problem {
   @OneToMany(()=>UserAcceptedProblems, (userProblem)=> userProblem.problem)
   userProblems: UserAcceptedProblems[]
 
-  @OneToMany(()=> Discussion, (disscussion)=> disscussion.problem)
+  @OneToMany(()=> Discussion, (disscussion)=> disscussion.entity_id)
   disscussions: Discussion[]
 
-  @OneToMany (()=>Likes, (likes)=>  likes.problem )
+  @OneToMany (()=>Likes, (likes)=>  likes.entity_id )
   userLikes:Likes[]
 }

@@ -13,7 +13,7 @@ const token = process.env.TOKEN;
 @Module({
   imports: [JwtModule.register({global:true, secret:token}),TypeOrmModule.forFeature([User, Roles])],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, ],
   exports: [UsersService,],
 })
 export class UsersModule {}

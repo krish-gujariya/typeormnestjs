@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { registerAs } from '@nestjs/config';
 import { config as dotenvConfig } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import {  runSeeders,SeederOptions} from 'typeorm-extension';
+import {  runSeeders,SeederOptions, synchronizeDatabaseSchema} from 'typeorm-extension';
 
 dotenvConfig();
 const penv = process.env;
@@ -22,10 +22,11 @@ const config = {
   database: `${database}`,
   
   entities: ['dist/**/**/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
-  migrations: ['**/migrations/*{.ts,.js}'],
+  migrations: ['dist/migrations/*{.ts,.js}'],
   seeds: ['dist/seeding/seed/*.seeder.*{js,ts}'],
   factories:['dist/seeding/factory/*.factory*{.js, .ts}'],
   autoLoadEntities: true,
+  synchronizeDatabaseSchema:false
 };
 
 export default registerAs('typeorm', () => config);

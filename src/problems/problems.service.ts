@@ -10,13 +10,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class ProblemsService {
   constructor(
     @InjectRepository(Problem)
-    private problemRepo : Repository<Problem>){}
+    private problemRepo: Repository<Problem>,
+  ) {}
   async create(createProblemDto: CreateProblemDto) {
     try {
-      
-      const data =  this.problemRepo.create(createProblemDto);
+      const data = this.problemRepo.create({
+        title: createProblemDto.title,
+        description: createProblemDto.description,
+        difficulty: createProblemDto.difficulty,
+        userLikes: [{ user_id:createProblemDto.user_id , like: 'LIKE' }],
+      });
       await this.problemRepo.save(data);
-      return returnObjectFunction(true,201,`Problem created successfully...`)
+      return returnObjectFunction(true, 201, `Problem created successfully...`);
     } catch (error) {
       return catchError(error);
     }
@@ -24,12 +29,17 @@ export class ProblemsService {
 
   async findAll() {
     try {
-        const data = await this.problemRepo.find({where:{}});
-        if(data.length==0){
-          return returnObjectFunction(false,404,`No record found...`);
-        }else{
-          return returnObjectFunction(true,201,`Problem data retrived successfully..`, data);
-        }
+      const data = await this.problemRepo.find({ where: {} });
+      if (data.length == 0) {
+        return returnObjectFunction(false, 404, `No record found...`);
+      } else {
+        return returnObjectFunction(
+          true,
+          201,
+          `Problem data retrived successfully..`,
+          data,
+        );
+      }
     } catch (error) {
       return catchError(error);
     }

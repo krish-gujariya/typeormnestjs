@@ -15,7 +15,8 @@ export class CreateDiscussionDto {
 
     @IsNotEmpty()
     @IsString()
-    entity_type:"Problems"
+    @ApiProperty({required:true})
+    entity_type:"Discussion"|"Problems"
 
     @IsNotEmpty()
     @IsString()

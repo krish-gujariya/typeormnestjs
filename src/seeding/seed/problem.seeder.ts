@@ -7,7 +7,7 @@ export default class ProblemSeeder implements Seeder {
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
     const problemFactory = factoryManager.get(Problem);
-    await problemFactory.saveMany(20);
+    await problemFactory.saveMany(5);
   }
 }
  

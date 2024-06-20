@@ -3,9 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   Res,
   UseGuards,
   Req,
@@ -13,7 +10,6 @@ import {
 import { Response,Request } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto, FindUser } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { generalResponse } from 'src/helper/generalResponseFunction';
 import { fetchResponseFunc } from 'src/helper/genralFunction';
 import { JwtService } from '@nestjs/jwt';
@@ -31,14 +27,15 @@ export class UsersController {
 
   @ApiTags('User')
   @Post('registration')
-  @ApiConsumes('application/x-www-form-urlencoded')
+  // @ApiConsumes('application/x-www-form-urlencoded')
   @ApiCreatedResponse()
   @ApiResponse({ status: 403, description: 'Forbidden' })
   @ApiBody({
     type: CreateUserDto,
   })
   async findOne(@Body() userData: CreateUserDto, @Res() res: Response) {
-
+    console.log(userData);
+    
     const data = await this.usersService.create(userData);
     fetchResponseFunc(res, data, data.message);
   }

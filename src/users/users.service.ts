@@ -16,10 +16,28 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     try {
       const data = this.userRepository.create({
-        name: '',
-        email: '',
-        password: '',
-        discussions: [{ entity_id: 1, entity_type: 'Problems', content: '' }],
+        name: createUserDto.name,
+        email: createUserDto.email,
+        password: createUserDto.password,
+        discussions: [
+          { entity_id: 1, entity_type: 'Problems', content: 'vbbbnnfhdfytvffghgh' },
+          { entity_id: 2, entity_type: 'Problems', content: 'jn jk n knj jkn ' },
+          { entity_id: 3, entity_type: 'Problems', content: 'bjb j bk b jkb jk bk ' },
+          { entity_id: 4, entity_type: 'Problems', content: ' bnjkb  yuv v vuv uyvvuj vvyh v ' },
+          { entity_id: 5, entity_type: 'Problems', content: 'AERTsvhJhv vJ vJvJ V vjvjVj' },
+          { entity_id: 6, entity_type: 'Problems', content: ' vgGV VGV hgvVV GVGvgHV vhVH  HV Hv ' },
+          { entity_id: 7, entity_type: 'Problems', content: ' njk n jkn jkn jkn kjn jk kn kj njkn kn kjn k ' },
+      ],
+        likes:[
+          {problem:{title:"hnjknkjnjknjknkjn", description:"bbjhbjhbjhbjhbjhbjh"}},
+          {problem:{title:"Problem2", description:"jk bhk bj bj kb kj b"}},
+          {problem:{title:"Problem1", description:"Description1"}},
+          {problem:{title:"Problem2", description:"Description2"}},
+          {problem:{title:"Problem3", description:"Description3"}},
+          {problem:{title:"Problem4", description:"Description4"}},
+          {problem:{title:"Problem5", description:"Description5"}},
+          {problem:{title:"Problem6", description:"Description6"}},
+      ]
       });
       await this.userRepository.insert(data);
 
@@ -32,11 +50,10 @@ export class UsersService {
   async getUserProfile(id: number) {
     try {
       const data = await this.userRepository.findOne({
-        where: { id: id },
-        select: { name: true, email: true },
+        where: { id: id }
       });
       if (data.id) {
-        return returnObjectFunction(true, 201, `User profile Successfully..`);
+        return returnObjectFunction(true, 201, `User profile Successfully..`, data);
       } else {
         return returnObjectFunction(false, 404, `User Profile not found...`);
       }

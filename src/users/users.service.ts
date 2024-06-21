@@ -6,7 +6,6 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
 import { verify } from 'argon2';
-import { Problem } from 'src/problems/entities/problem.entity';
 import { deleteFile } from 'src/utils/file.validator';
 
 @Injectable()

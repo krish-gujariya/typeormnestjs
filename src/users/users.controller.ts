@@ -37,6 +37,8 @@ import { IRequest, tempI } from 'src/types/generalInterface';
 import { profilepicDTO, UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/utils/file.validator';
+
+@ApiTags("User")
 @Controller('users')
 export class UsersController {
   constructor(
@@ -44,7 +46,6 @@ export class UsersController {
     private jwtService: JwtService,
   ) {}
 
-  @ApiTags('User')
   @Post('registration')
   @ApiConsumes('application/x-www-form-urlencoded')
   @ApiCreatedResponse()
@@ -57,7 +58,6 @@ export class UsersController {
     fetchResponseFunc(res, data, data.message);
   }
 
-  @ApiTags('User')
   @Post('login')
   @ApiConsumes('application/x-www-form-urlencoded')
   @ApiResponse({ status: 201, description: 'User logged in successfully' })
@@ -84,7 +84,6 @@ export class UsersController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGaurd)
-  @ApiTags('User')
   @Get('profile')
   async userProfile(@Req() req: IRequest, @Res() res: Response) {
     const data = await this.usersService.getUserProfile(req.user.id);
@@ -93,7 +92,6 @@ export class UsersController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGaurd)
-  @ApiTags('User')
   @Patch('profile/update')
   @ApiConsumes('application/x-www-form-urlencoded')
   @ApiResponse({ status: 201, description: 'User updated in successfully' })
@@ -110,7 +108,6 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGaurd)
   @Post('profile/pic')
-  @ApiTags("User")
   @ApiBody({type: profilepicDTO})
   @ApiConsumes('multipart/form-data')
 

@@ -9,6 +9,7 @@ import { ProblemsModule } from './problems/problems.module';
 import { DiscussionsModule } from './discussions/discussions.module';
 import { LikesModule } from './likes/likes.module';
 import { RouterModule } from '@nestjs/core';
+import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
   imports: [
@@ -37,6 +38,8 @@ import { RouterModule } from '@nestjs/core';
     DiscussionsModule,
 
     LikesModule,
+
+    SubmissionsModule,
 
   ],
   controllers: [AppController],

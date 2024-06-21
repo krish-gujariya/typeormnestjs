@@ -1,15 +1,31 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Problem } from "./problem.entity";
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Problem } from './problem.entity';
 
-@Entity("categories")
-export class Categories{
+@Entity('categories')
+export class Categories {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ unique: true })
+  category: string;
 
-    @Column({unique:true})
-    category:string;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @OneToMany(()=> Problem, (problem)=> problem.category ,{cascade:true})
-    problems: Problem[]
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
+
+  @OneToMany(() => Problem, (problem) => problem.category, { cascade: true })
+  problems: Problem[];
 }

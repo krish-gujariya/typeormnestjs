@@ -15,6 +15,7 @@ import { Roles } from './role.entity';
 import { genPassword } from 'src/helper/genralFunction';
 import { Discussion } from 'src/discussions/entities/discussion.entity';
 import { Likes } from 'src/likes/entities/like.entity';
+import { Submission } from 'src/submissions/entities/submission.entity';
 
 @Entity('users')
 export class User {
@@ -70,6 +71,9 @@ export class User {
 
   @OneToMany(()=> Likes, (likes)=> likes.users)
   likes:Likes[]
+
+  @OneToMany(()=>Submission, (submission)=> submission.user  ,{cascade:true})
+  submissions: Submission[]
 
   @BeforeInsert()
   public async hashpass() {

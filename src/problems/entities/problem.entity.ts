@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToO
 import { Likes } from "src/likes/entities/like.entity";
 import { Discussion } from "src/discussions/entities/discussion.entity";
 import { Categories } from "./categories.entity";
+import { Submission } from "src/submissions/entities/submission.entity";
 
 export enum Difficulty{
     easy="Easy",
@@ -54,4 +55,9 @@ export class Problem {
 
   @OneToMany (()=>Likes, (likes)=>  likes.entity_id )
   userLikes:Likes[]
+
+
+  @OneToMany(()=>Submission, (submission)=> submission.problem ,{cascade:true})
+  submissions: Submission[]
+
 }

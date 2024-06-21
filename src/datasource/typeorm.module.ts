@@ -26,7 +26,7 @@ const config = {
   seeds: ['dist/seeding/seed/*.seeder.*{js,ts}'],
   factories:['dist/seeding/factory/*.factory*{.js, .ts}'],
   autoLoadEntities: true,
-  synchronizeDatabaseSchema:false
+  synchronizeDatabaseSchema: true,
 };
 
 export default registerAs('typeorm', () => config);

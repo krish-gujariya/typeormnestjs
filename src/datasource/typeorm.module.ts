@@ -21,7 +21,7 @@ const config = {
   password: `${password}`,
   database: `${database}`,
   
-  entities: ['dist/**/**/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
+  entities: ['dist/**/entities/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
   migrations: ['dist/migrations/*{.ts,.js}'],
   seeds: ['dist/seeding/seed/*.seeder.*{js,ts}'],
   factories:['dist/seeding/factory/*.factory*{.js, .ts}'],

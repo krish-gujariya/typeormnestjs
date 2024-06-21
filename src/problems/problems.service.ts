@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
 import { Difficulty, Problem } from './entities/problem.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Categories } from './entities/categories.entity';
 
 @Injectable()
 export class ProblemsService {
@@ -23,6 +24,7 @@ export class ProblemsService {
       await this.problemRepo.save(data);
       return returnObjectFunction(true, 201, `Problem created successfully...`);
     } catch (error) {
+      
       return catchError(error);
     }
   }
@@ -60,11 +62,7 @@ export class ProblemsService {
     }
   }
 
-  update(id: number, updateProblemDto: UpdateProblemDto) {
-    return `This action updates a #${id} problem`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} problem`;
-  }
+ 
+
 }

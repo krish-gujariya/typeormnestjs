@@ -1,7 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { UserAcceptedProblems } from './userProbllem.entity';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Likes } from "src/likes/entities/like.entity";
 import { Discussion } from "src/discussions/entities/discussion.entity";
+import { Categories } from "./categories.entity";
 
 export enum Difficulty{
     easy="Easy",
@@ -24,6 +24,9 @@ export class Problem {
   @Column({type:'enum',enum:Difficulty,default:Difficulty.easy})
   difficulty:"Easy"|"Medium"|"Hard"|"Extreme"
 
+  @Column()
+  category_id:number
+
   @Column({default:0})
   acceptance_rate:number
 
@@ -42,8 +45,9 @@ export class Problem {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(()=>UserAcceptedProblems, (userProblem)=> userProblem.problem)
-  userProblems: UserAcceptedProblems[]
+  @ManyToOne(()=> Categories)
+  @JoinColumn({name:"category_id"})
+  category:Categories
 
   @OneToMany(()=> Discussion, (disscussion)=> disscussion.entity_id)
   disscussions: Discussion[]

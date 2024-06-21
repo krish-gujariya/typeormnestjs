@@ -27,11 +27,15 @@ import {
 import { AuthGaurd } from 'src/users/user.gaurd';
 import { IRequest } from 'src/types/generalInterface';
 import { Difficulty } from './entities/problem.entity';
+import { CategoryService } from './category.service';
 
 @ApiTags('Problems')
 @Controller('problems')
 export class ProblemsController {
-  constructor(private readonly problemsService: ProblemsService) {}
+  constructor(
+    private readonly problemsService: ProblemsService,
+    private readonly categoryService:CategoryService        
+    ) {}
 
   @UseGuards(AuthGaurd)
   @ApiBearerAuth()
@@ -64,4 +68,12 @@ export class ProblemsController {
     const data = await this.problemsService.findByDifficulty(level);
     return fetchResponseFunc(res, data, data.message);
   }
+
+
+  @Get('view/categories')
+  async viewAllCategories(@Res() res:Response){
+    const data = await this.categoryService.viewCategory();
+    return fetchResponseFunc(res,data,data.message);
+  }
+
 }

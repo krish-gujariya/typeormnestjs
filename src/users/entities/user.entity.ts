@@ -13,7 +13,6 @@ import {
 } from 'typeorm';
 import { Roles } from './role.entity';
 import { genPassword } from 'src/helper/genralFunction';
-import { UserAcceptedProblems } from 'src/problems/entities/userProbllem.entity';
 import { Discussion } from 'src/discussions/entities/discussion.entity';
 import { Likes } from 'src/likes/entities/like.entity';
 
@@ -65,9 +64,6 @@ export class User {
   @JoinColumn({ name: 'role_id' })
   roles: Roles;
 
-
-  @OneToMany(()=>UserAcceptedProblems, (userProblem)=> userProblem.user)
-  userProblems: UserAcceptedProblems[]
 
   @OneToMany(()=> Discussion, (disscussion)=> disscussion.user)
   discussions:Discussion[]

@@ -7,6 +7,7 @@ export default  setSeederFactory(Problem, (faker:  Faker):Problem=>{
     problem.title = faker.company.name();
     problem.description = faker.lorem.lines(2);
     problem.difficulty = items[Math.floor(Math.random()*items.length)] as Difficulty;
+    problem.category_id = Math.ceil(Math.random()*5)
     return problem
 })
 

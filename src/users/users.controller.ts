@@ -100,6 +100,8 @@ export class UsersController {
     @Res() res: Response,
     @Body() updateUserDto: UpdateUserDto,
   ) {
+    console.log(updateUserDto);
+    
     const id = req.user.id;
     const data = await this.usersService.update(id, updateUserDto);
     return fetchResponseFunc(res, data, data.message);

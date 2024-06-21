@@ -28,6 +28,8 @@ import { AuthGaurd } from 'src/users/user.gaurd';
 import { IRequest } from 'src/types/generalInterface';
 import { Difficulty } from './entities/problem.entity';
 import { CategoryService } from './category.service';
+import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import { BulkCategoryCreate } from './dto/category.dto';
 
 @ApiTags('Problems')
 @Controller('problems')
@@ -62,9 +64,10 @@ export class ProblemsController {
   }
 
   @ApiParam({ name: 'level', enum:Difficulty})
-  @Get('view/difficultywise')
+  @Get('view/difficultywise/:level')
   async findByDifficulty(@Param('level') level:Difficulty, @Res() res: Response) {
-
+    console.log(level);
+    
     const data = await this.problemsService.findByDifficulty(level);
     return fetchResponseFunc(res, data, data.message);
   }
@@ -74,6 +77,29 @@ export class ProblemsController {
   async viewAllCategories(@Res() res:Response){
     const data = await this.categoryService.viewCategory();
     return fetchResponseFunc(res,data,data.message);
+  }
+
+  @ApiBearerAuth()
+  @Post('create/categories')
+  @ApiConsumes("application/x-www-form-urlencoded")
+  @ApiBody({
+    type:BulkCategoryCreate
+  })
+  async createCategory(@Body('category') categories:string, @Res() res:Response){
+      
+    const category = categories.split(",")
+    const data = await this.categoryService.createCategory(category);
+    return fetchResponseFunc(res,data,data.message);
+
+  }
+
+  @ApiParam({name:"category",})
+  @Get("views/categories/problem/:category")
+  async findProblemByCategory(@Param("category") category:string  ,@Res() res:Response){
+    
+    const data  = await this.categoryService.findProblemByCategory(category);
+    return fetchResponseFunc(res,data,data.message);
+
   }
 
 }

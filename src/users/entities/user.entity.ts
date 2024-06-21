@@ -25,8 +25,8 @@ export class User {
   @Column()
   name: string;
 
-  @Column({nullable:true})
-  gender: string;
+  @Column({nullable:true, type:"enum", enum:["Male","Female"]})
+  gender: "Male"|"Female";
 
   @Column({nullable:true})
   city: string;

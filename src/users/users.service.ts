@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
 import { verify } from 'argon2';
 import { Problem } from 'src/problems/entities/problem.entity';
+import { deleteFile } from 'src/utils/file.validator';
 
 @Injectable()
 export class UsersService {
@@ -77,18 +78,24 @@ export class UsersService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     try {
-      const data  = this.userRepository.update(id,updateUserDto);
+       await this.userRepository.update(id,updateUserDto);
+      return returnObjectFunction(false,404,`User Profile updated successfully...`)
     } catch (error) {
+      return catchError(error);
+    }
+  }
+
+  async profilePicUpload(path:string, id:number){
+    try {
+      await this.userRepository.update(id,{profileImg:path});
+      return returnObjectFunction(true,201, `Image updated successfully`);
+    } catch (error) {
+      deleteFile(path);
+      return catchError(error);
       
     }
-    return `This action updates a #${id} user`;
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
-
 
 }

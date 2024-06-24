@@ -3,6 +3,7 @@ import { Likes } from "src/likes/entities/like.entity";
 import { Discussion } from "src/discussions/entities/discussion.entity";
 import { Categories } from "./categories.entity";
 import { Submission } from "src/submissions/entities/submission.entity";
+import { TestCases } from "./testcases.entity";
 
 export enum Difficulty{
     easy="Easy",
@@ -32,6 +33,12 @@ export class Problem {
   acceptance_rate:number
 
   @Column({default:0})
+  time_limit:number
+
+  @Column({default:0})
+  memory_limit:number
+
+  @Column({default:0})
   likes:number
 
   @Column({default:0})
@@ -59,5 +66,9 @@ export class Problem {
 
   @OneToMany(()=>Submission, (submission)=> submission.problem ,{cascade:true})
   submissions: Submission[]
+
+  @OneToMany(()=> TestCases, (testcases)=> testcases.problem, {cascade:true})
+  testcases:TestCases[]
+  
 
 }

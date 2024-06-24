@@ -12,10 +12,8 @@ import { CategoryService } from './category.service';
   imports: [UsersModule, TypeOrmModule.forFeature([Problem,Categories])],
   controllers: [ProblemsController ],
   providers: [
-    Repository<Categories>,
     CategoryService,
     ProblemsService,
-    Repository<Problem>,
   ],
   exports: [ProblemsService],
 })

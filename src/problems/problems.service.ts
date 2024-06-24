@@ -15,16 +15,13 @@ export class ProblemsService {
   ) {}
   async create(createProblemDto: CreateProblemDto) {
     try {
-      const data = this.problemRepo.create({
-        title: createProblemDto.title,
-        description: createProblemDto.description,
-        difficulty: createProblemDto.difficulty,
-        userLikes: [{ user_id:createProblemDto.user_id , like: 'LIKE' }],
-      });
+    
+        const data = this.problemRepo.create(createProblemDto);
+        console.log(data);
+        
       await this.problemRepo.save(data);
       return returnObjectFunction(true, 201, `Problem created successfully...`);
     } catch (error) {
-      
       return catchError(error);
     }
   }
@@ -47,22 +44,23 @@ export class ProblemsService {
     }
   }
 
- async findByDifficulty(level: Difficulty) {
-    try {      
-        const data = await this.problemRepo.findBy({difficulty:level})
-        if(data.length==0){
-          return returnObjectFunction(false,404,"No record found...")
-        }else{
-          return returnObjectFunction(true,201,`Problem of ${level} found successfully...`, data)
-        }
+  async findByDifficulty(level: Difficulty) {
+    try {
+      const data = await this.problemRepo.findBy({ difficulty: level });
+      if (data.length == 0) {
+        return returnObjectFunction(false, 404, 'No record found...');
+      } else {
+        return returnObjectFunction(
+          true,
+          201,
+          `Problem of ${level} found successfully...`,
+          data,
+        );
+      }
     } catch (error) {
       console.log(error);
-      
-      return catchError(error)
+
+      return catchError(error);
     }
   }
-
-
- 
-
 }

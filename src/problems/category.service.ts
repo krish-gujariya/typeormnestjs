@@ -31,37 +31,42 @@ export class CategoryService {
     }
   }
 
-  async createCategory(data:string[]){
+  async createCategory(data: string[]) {
     try {
-      const category = data.map((item)=> ({category:item}))
-      
-    const result = this.categoryRepo.create(category)
-    console.log(result);
-    
-    // await this.categoryRepo.save(result)
-    
-    return returnObjectFunction(true,201,`Categories data inserted successfully....`)
-      
+      const category = data.map((item) => ({ category: item }));
+      const result = this.categoryRepo.create(category);
+      await this.categoryRepo.save(result);
+      return returnObjectFunction(
+        true,
+        201,
+        `Categories data inserted successfully....`,
+      );
     } catch (error) {
       return catchError(error);
     }
-
   }
 
-  async findProblemByCategory(category:string){
+  async findProblemByCategory(category: string) {
     try {
-      
-      const data = await this.categoryRepo.find({relations:{problems:true,},where:{category:ILike(`${category}%`)}, select:{problems:{title:true, description:true, difficulty:true}}})
-      if(data.length==0){
-        return returnObjectFunction(false,404,`No question found....`);
-      }else{
-        return returnObjectFunction(true,201,`Record retrived successfully...`, data)
+      const data = await this.categoryRepo.find({
+        relations: { problems: true },
+        where: { category: ILike(`${category}%`) },
+        select: {
+          problems: { title: true, description: true, difficulty: true },
+        },
+      });
+      if (data.length == 0) {
+        return returnObjectFunction(false, 404, `No question found....`);
+      } else {
+        return returnObjectFunction(
+          true,
+          201,
+          `Record retrived successfully...`,
+          data,
+        );
       }
     } catch (error) {
-      return catchError(error)
+      return catchError(error);
     }
-
   }
 }
-
-

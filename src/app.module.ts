@@ -10,7 +10,6 @@ import { DiscussionsModule } from './discussions/discussions.module';
 import { LikesModule } from './likes/likes.module';
 import { RouterModule } from '@nestjs/core';
 import { SubmissionsModule } from './submissions/submissions.module';
-import { AuthoriztionMiddleware } from './middlewares/authorization';
 
 @Module({
   imports: [

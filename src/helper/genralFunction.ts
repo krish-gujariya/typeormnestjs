@@ -45,3 +45,8 @@ export const fetchResponseFunc = (
       .json({ success: false, message: message, data: data.result });
   }
 };
+
+
+export const noRecorFound =()=>{
+  return returnObjectFunction(false,404,`No record Found...`);
+}

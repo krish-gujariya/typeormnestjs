@@ -1,10 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
-import { AuthGaurd } from "./user.gaurd";
-import { JwtService } from "@nestjs/jwt";
 import { UsersService } from "./users.service";
 import { IRequest } from "src/types/generalInterface";
-import { NextFunction , Response} from "express";
-import { catchError } from "src/helper/genralFunction";
+import { catchError, fetchResponseFunc } from "src/helper/genralFunction";
 
 @Injectable()
 
@@ -13,6 +10,7 @@ export class AuthorizationGaurd implements CanActivate  {
         ){}
 
     async canActivate(context: ExecutionContext){
+        const response = context.switchToHttp().getResponse();
         try {
             const request:IRequest = context.switchToHttp().getRequest();
             const roleId = request.user.role_id;
@@ -21,6 +19,7 @@ export class AuthorizationGaurd implements CanActivate  {
                 if(roles.result =="ADMIN"){
                     return true;
                 }else{
+                    response.status(403).json({success:false, message:"Access Denied"})
                     return false;
                 }
             }else{
@@ -28,7 +27,8 @@ export class AuthorizationGaurd implements CanActivate  {
             }
             
         } catch (error) {
-            catchError(error)
+           const data =  catchError(error)
+           fetchResponseFunc(response,data, data.message);
             return false
         }
     }

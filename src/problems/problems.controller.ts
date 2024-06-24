@@ -30,6 +30,7 @@ import { Difficulty } from './entities/problem.entity';
 import { CategoryService } from './category.service';
 import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { BulkCategoryCreate } from './dto/category.dto';
+import { AuthorizationGaurd } from 'src/users/role.gaurd';
 
 @ApiTags('Problems')
 @Controller('problems')
@@ -39,16 +40,14 @@ export class ProblemsController {
     private readonly categoryService:CategoryService        
     ) {}
 
-  @UseGuards(AuthGaurd)
+  @UseGuards(AuthGaurd, AuthorizationGaurd)
   @ApiBearerAuth()
-  @ApiBody({ type: CreateProblemDto })
-  @Post('createQuestion')
+  @Post('/create')
   async create(
     @Body() createProblemDto: CreateProblemDto,
     @Res() res: Response,
     @Req() req: IRequest,
   ) {
-    console.log(createProblemDto);
     const data = await this.problemsService.create(createProblemDto);
     return fetchResponseFunc(res, data, data.message);
   }
@@ -72,14 +71,14 @@ export class ProblemsController {
     return fetchResponseFunc(res, data, data.message);
   }
 
-
   @Get('view/categories')
   async viewAllCategories(@Res() res:Response){
     const data = await this.categoryService.viewCategory();
     return fetchResponseFunc(res,data,data.message);
   }
-
+  
   @ApiBearerAuth()
+  @UseGuards(AuthGaurd, AuthorizationGaurd)
   @Post('create/categories')
   @ApiConsumes("application/x-www-form-urlencoded")
   @ApiBody({
@@ -91,7 +90,7 @@ export class ProblemsController {
     const data = await this.categoryService.createCategory(category);
     return fetchResponseFunc(res,data,data.message);
 
-  }
+  }   
 
   @ApiParam({name:"category",})
   @Get("views/categories/problem/:category")
@@ -103,3 +102,27 @@ export class ProblemsController {
   }
 
 }
+
+
+[
+  {
+    "input": "input",
+    "output": "output",
+    "visibility": true
+  },
+  {
+    "input": "input1",
+    "output": "output1",
+    "visibility": true
+  },
+  {
+    "input": "input2",
+    "output": "output2",
+    "visibility": true
+  },
+  {
+    "input": "input3",
+    "output": "output3",
+    "visibility": true
+  }
+]

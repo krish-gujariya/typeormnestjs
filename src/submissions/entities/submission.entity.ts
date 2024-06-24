@@ -8,6 +8,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -22,6 +23,7 @@ export enum SubmissionStatus {
 }
 
 @Entity('submissions')
+@Unique(["user_id", "problem_id", "createdAt"])
 export class Submission {
   @PrimaryGeneratedColumn()
   id: number;
@@ -31,6 +33,9 @@ export class Submission {
 
   @Column()
   problem_id: number;
+
+  @Column()
+  description: string;
 
   @Column()
   language: string;

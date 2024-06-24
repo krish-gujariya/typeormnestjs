@@ -1,20 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Res } from '@nestjs/common';
 import { SubmissionsService } from './submissions.service';
 import { CreateSubmissionDto } from './dto/create-submission.dto';
 import { UpdateSubmissionDto } from './dto/update-submission.dto';
-
-@Controller('submissions')
+import { AuthGaurd } from 'src/users/user.gaurd';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiForbiddenResponse, ApiInternalServerErrorResponse, ApiTags } from '@nestjs/swagger';
+import { IRequest } from 'src/types/generalInterface';
+import { Response } from 'express';
+import { fetchResponseFunc } from 'src/helper/genralFunction';
+@UseGuards(AuthGaurd)
+@ApiBearerAuth()
+@Controller()
+@ApiTags("Submissions")
 export class SubmissionsController {
   constructor(private readonly submissionsService: SubmissionsService) {}
 
-  @Post()
-  create(@Body() createSubmissionDto: CreateSubmissionDto) {
-    return this.submissionsService.create(createSubmissionDto);
+  @Post("/problem/submission")
+  @ApiCreatedResponse({status:201, description:"Problem's sollution submitted successfully"})
+  @ApiForbiddenResponse({description:"Forbidden"})
+  @ApiInternalServerErrorResponse({description:"Internal server error"})
+  async create(@Body() createSubmissionDto: CreateSubmissionDto, @Req() req:IRequest, @Res() res:Response) {
+    createSubmissionDto.user_id = req.user.id;
+    const data = await this.submissionsService.create(createSubmissionDto);
+    return fetchResponseFunc(res,data, data.message);
   }
 
-  @Get()
-  findAll() {
-    return this.submissionsService.findAll();
+  @Get("/submission/allSubmissions")
+  async findAll(@Res() res:Response) {
+    const data =await this.submissionsService.findAll();
+    return fetchResponseFunc(res,data,data.message);
   }
 
   @Get(':id')

@@ -103,4 +103,11 @@ export class ProblemsController {
     const data = await this.categoryService.findProblemByCategory(category);
     return fetchResponseFunc(res, data, data.message);
   }
+
+  @ApiParam({ name: 'id' })
+  @Get('views/user/submissions/:id')
+  async allUsersSubmission(@Param('id') id: number, @Res() res: Response) {
+    const data = await this.problemsService.submissionsOfAllUser(id);
+    return fetchResponseFunc(res, data);
+  }
 }

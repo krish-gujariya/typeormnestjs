@@ -39,8 +39,6 @@ export class Problem {
   @Column()
   category_id: number;
 
-  @Column({ default: 0 })
-  acceptance_rate: number;
 
   @Column({ default: 0 })
   time_limit: number;

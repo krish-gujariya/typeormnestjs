@@ -78,4 +78,49 @@ export class ProblemsService {
       return catchError(error);
     }
   }
+
+  async submissionsOfAllUser(id: number) {
+    try {
+      const data = await this.problemRepo.find({
+        relations: { category: true, submissions: true },
+        where: { id: id },
+        select: {
+          title: true,
+          description: true,
+          memory_limit: true,
+          time_limit: true,
+          category: { category: true },
+          submissions: {
+            description: true,
+            language: true,
+            memory_usage: true,
+            runtime: true,
+            status: true,
+          },
+        },
+      });
+
+      const acceptanceRate = await  this.problemRepo.createQueryBuilder("Problem")
+                                .leftJoinAndSelect("Problem.submissions", "submission")
+                                .where("Problem.id = :id",{id:id})
+                                .groupBy("submission.problem_id")
+                                .getMany()
+                                
+
+      Logger.log(acceptanceRate);
+      
+      if (data.length == 0) {
+        return noRecorFound();
+      } else {
+        return returnObjectFunction(
+          true,
+          201,
+          `Data retrived successfully...`,
+          acceptanceRate,
+        );
+      }
+    } catch (error) {
+      return catchError(error);
+    }
+  }
 }

@@ -10,22 +10,30 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Submission } from './entities/submission.entity';
 import { Repository } from 'typeorm';
 import { NumberModule } from '@faker-js/faker';
+import { Validation } from './submission.validation';
 
 @Injectable()
 export class SubmissionsService {
   constructor(
     @InjectRepository(Submission)
     private submissionRepo: Repository<Submission>,
+    private validation: Validation
   ) {}
   async create(createSubmissionDto: CreateSubmissionDto) {
     try {
-      const data = this.submissionRepo.create(createSubmissionDto);
-      await this.submissionRepo.save(data);
-      return returnObjectFunction(
-        true,
-        201,
-        `User submission entered successfully...`,
-      );
+      const validation = await this.validation.submissionValidation(createSubmissionDto);
+      if(validation.success){
+        const data = this.submissionRepo.create(createSubmissionDto);
+        await this.submissionRepo.save(data);
+        return returnObjectFunction(
+          true,
+          201,
+          `Your solution has status: ${createSubmissionDto.status}....`,
+        );
+
+      }else{
+        return validation;
+      }
     } catch (error) {
       return catchError(error);
     }

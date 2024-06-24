@@ -34,7 +34,6 @@ export class CreateSubmissionDto {
 
     @IsNotEmpty()
     @IsEnum({enum:SubmissionStatus})
-    @ApiProperty({required:true,type:"enum", enum:SubmissionStatus })
     status: SubmissionStatus;
 
 

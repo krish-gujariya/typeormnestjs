@@ -46,11 +46,4 @@ import { AuthoriztionMiddleware } from './middlewares/authorization';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      
-      .apply(AuthoriztionMiddleware)
-      .forRoutes('/submission/allSubmissions');
-  }
-}
+export class AppModule {}

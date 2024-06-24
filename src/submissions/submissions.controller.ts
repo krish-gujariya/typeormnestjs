@@ -7,7 +7,7 @@ import { ApiBadRequestResponse, ApiBearerAuth, ApiConsumes, ApiCreatedResponse, 
 import { IRequest } from 'src/types/generalInterface';
 import { Response } from 'express';
 import { fetchResponseFunc } from 'src/helper/genralFunction';
-@UseGuards(AuthGaurd)
+import { AuthorizationGaurd } from 'src/users/role.gaurd';
 @ApiBearerAuth()
 @Controller()
 @ApiTags("Submissions")
@@ -24,6 +24,7 @@ export class SubmissionsController {
     return fetchResponseFunc(res,data, data.message);
   }
 
+  @UseGuards(AuthGaurd, AuthorizationGaurd)
   @Get("/submission/allSubmissions")
   async findAll(@Res() res:Response) {
     const data =await this.submissionsService.findAll();

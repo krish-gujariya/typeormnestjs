@@ -37,8 +37,8 @@ import { AuthorizationGaurd } from 'src/users/role.gaurd';
 export class ProblemsController {
   constructor(
     private readonly problemsService: ProblemsService,
-    private readonly categoryService:CategoryService        
-    ) {}
+    private readonly categoryService: CategoryService,
+  ) {}
 
   @UseGuards(AuthGaurd, AuthorizationGaurd)
   @ApiBearerAuth()
@@ -62,67 +62,45 @@ export class ProblemsController {
     return fetchResponseFunc(res, data, data.message);
   }
 
-  @ApiParam({ name: 'level', enum:Difficulty})
+  @ApiParam({ name: 'level', enum: Difficulty })
   @Get('view/difficultywise/:level')
-  async findByDifficulty(@Param('level') level:Difficulty, @Res() res: Response) {
-    console.log(level);
-    
+  async findByDifficulty(
+    @Param('level') level: Difficulty,
+    @Res() res: Response,
+  ) {
     const data = await this.problemsService.findByDifficulty(level);
     return fetchResponseFunc(res, data, data.message);
   }
 
   @Get('view/categories')
-  async viewAllCategories(@Res() res:Response){
+  async viewAllCategories(@Res() res: Response) {
     const data = await this.categoryService.viewCategory();
-    return fetchResponseFunc(res,data,data.message);
+    return fetchResponseFunc(res, data, data.message);
   }
-  
+
   @ApiBearerAuth()
   @UseGuards(AuthGaurd, AuthorizationGaurd)
   @Post('create/categories')
-  @ApiConsumes("application/x-www-form-urlencoded")
+  @ApiConsumes('application/x-www-form-urlencoded')
   @ApiBody({
-    type:BulkCategoryCreate
+    type: BulkCategoryCreate,
   })
-  async createCategory(@Body('category') categories:string, @Res() res:Response){
-      
-    const category = categories.split(",")
+  async createCategory(
+    @Body('category') categories: string,
+    @Res() res: Response,
+  ) {
+    const category = categories.split(',');
     const data = await this.categoryService.createCategory(category);
-    return fetchResponseFunc(res,data,data.message);
-
-  }   
-
-  @ApiParam({name:"category",})
-  @Get("views/categories/problem/:category")
-  async findProblemByCategory(@Param("category") category:string  ,@Res() res:Response){
-    
-    const data  = await this.categoryService.findProblemByCategory(category);
-    return fetchResponseFunc(res,data,data.message);
-
+    return fetchResponseFunc(res, data, data.message);
   }
 
+  @ApiParam({ name: 'category' })
+  @Get('views/categories/problem/:category')
+  async findProblemByCategory(
+    @Param('category') category: string,
+    @Res() res: Response,
+  ) {
+    const data = await this.categoryService.findProblemByCategory(category);
+    return fetchResponseFunc(res, data, data.message);
+  }
 }
-
-
-[
-  {
-    "input": "input",
-    "output": "output",
-    "visibility": true
-  },
-  {
-    "input": "input1",
-    "output": "output1",
-    "visibility": true
-  },
-  {
-    "input": "input2",
-    "output": "output2",
-    "visibility": true
-  },
-  {
-    "input": "input3",
-    "output": "output3",
-    "visibility": true
-  }
-]

@@ -23,7 +23,7 @@ export enum SubmissionStatus {
 }
 
 @Entity('submissions')
-@Unique(["user_id", "problem_id", "createdAt"])
+@Unique(['user_id', 'problem_id', 'createdAt'])
 export class Submission {
   @PrimaryGeneratedColumn()
   id: number;
@@ -46,7 +46,11 @@ export class Submission {
   @Column()
   memory_usage: number;
 
-  @Column({type:'enum', enum: SubmissionStatus , default : SubmissionStatus.accepted})
+  @Column({
+    type: 'enum',
+    enum: SubmissionStatus,
+    default: SubmissionStatus.accepted,
+  })
   status: SubmissionStatus;
 
   @CreateDateColumn()
@@ -58,11 +62,11 @@ export class Submission {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @ManyToOne(() => User,(user)=> user.submissions)
+  @ManyToOne(() => User, (user) => user.submissions)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Problem,(problem)=> problem.submissions)
+  @ManyToOne(() => Problem, (problem) => problem.submissions)
   @JoinColumn({ name: 'problem_id' })
   problem: Problem;
 }

@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Res, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Res,
+  Req,
+} from '@nestjs/common';
 import { DiscussionsService } from './discussions.service';
 import { CreateDiscussionDto } from './dto/create-discussion.dto';
 import { UpdateDiscussionDto } from './dto/update-discussion.dto';
@@ -14,16 +25,18 @@ export class DiscussionsController {
   constructor(private readonly discussionsService: DiscussionsService) {}
 
   @Post()
-  @ApiTags("Comments")
+  @ApiTags('Comments')
   @ApiConsumes('application/x-www-form-urlencoded')
   @ApiBody({
-    type: CreateDiscussionDto
+    type: CreateDiscussionDto,
   })
-  async create(@Body() createDiscussionDto: CreateDiscussionDto, @Res() res:Response, @Req() req:IRequest) {
-    createDiscussionDto.user_id = req.user.id
-     const data = await this.discussionsService.create(createDiscussionDto);
-     return fetchResponseFunc(res,data,data.message);
+  async create(
+    @Body() createDiscussionDto: CreateDiscussionDto,
+    @Res() res: Response,
+    @Req() req: IRequest,
+  ) {
+    createDiscussionDto.user_id = req.user.id;
+    const data = await this.discussionsService.create(createDiscussionDto);
+    return fetchResponseFunc(res, data, data.message);
   }
-
-  
 }

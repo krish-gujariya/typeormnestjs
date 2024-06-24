@@ -13,5 +13,3 @@ export default class ProblemSeeder implements Seeder {
     await problemFactory.saveMany(20);
   }
 }
- 
-

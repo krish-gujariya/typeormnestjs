@@ -8,7 +8,7 @@ import { Validation } from './submission.validation';
 import { Problem } from 'src/problems/entities/problem.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Submission, Problem]),  UsersModule],
+  imports: [TypeOrmModule.forFeature([Submission, Problem]), UsersModule],
   controllers: [SubmissionsController],
   providers: [SubmissionsService, Validation],
 })

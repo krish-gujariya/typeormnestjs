@@ -2,7 +2,11 @@ import { Logger } from '@nestjs/common';
 import { registerAs } from '@nestjs/config';
 import { config as dotenvConfig } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import {  runSeeders,SeederOptions, synchronizeDatabaseSchema} from 'typeorm-extension';
+import {
+  runSeeders,
+  SeederOptions,
+  synchronizeDatabaseSchema,
+} from 'typeorm-extension';
 
 dotenvConfig();
 const penv = process.env;
@@ -20,17 +24,19 @@ const config = {
   username: `${username}`,
   password: `${password}`,
   database: `${database}`,
-  
+
   entities: ['dist/**/entities/*.entity*{.ts,.js}'], // dist/**/*.entity{.ts,.js}
   migrations: ['dist/migrations/*{.ts,.js}'],
   seeds: ['dist/seeding/seed/*.seeder.*{js,ts}'],
-  factories:['dist/seeding/factory/*.factory*{.js, .ts}'],
+  factories: ['dist/seeding/factory/*.factory*{.js, .ts}'],
   autoLoadEntities: true,
   synchronizeDatabaseSchema: true,
 };
 
 export default registerAs('typeorm', () => config);
-export const connectionSource = new DataSource(config as DataSourceOptions & SeederOptions  );
+export const connectionSource = new DataSource(
+  config as DataSourceOptions & SeederOptions,
+);
 
 connectionSource
   .initialize()
@@ -40,7 +46,6 @@ connectionSource
   .catch((error) => {
     Logger.error(error);
   });
-
 
 // runSeeders(connectionSource).then(()=>{
 //   Logger.log("Seeder execute successfully")

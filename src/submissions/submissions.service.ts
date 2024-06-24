@@ -17,12 +17,13 @@ export class SubmissionsService {
   constructor(
     @InjectRepository(Submission)
     private submissionRepo: Repository<Submission>,
-    private validation: Validation
+    private validation: Validation,
   ) {}
   async create(createSubmissionDto: CreateSubmissionDto) {
     try {
-      const validation = await this.validation.submissionValidation(createSubmissionDto);
-      if(validation.success){
+      const validation =
+        await this.validation.submissionValidation(createSubmissionDto);
+      if (validation.success) {
         const data = this.submissionRepo.create(createSubmissionDto);
         await this.submissionRepo.save(data);
         return returnObjectFunction(
@@ -30,8 +31,7 @@ export class SubmissionsService {
           201,
           `Your solution has status: ${createSubmissionDto.status}....`,
         );
-
-      }else{
+      } else {
         return validation;
       }
     } catch (error) {

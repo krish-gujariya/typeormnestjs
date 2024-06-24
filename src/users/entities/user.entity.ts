@@ -25,19 +25,19 @@ export class User {
   @Column()
   name: string;
 
-  @Column({nullable:true, type:"enum", enum:["Male","Female"]})
-  gender: "Male"|"Female";
+  @Column({ nullable: true, type: 'enum', enum: ['Male', 'Female'] })
+  gender: 'Male' | 'Female';
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   city: string;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   country: string;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   birthdate: Date;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   summary: string;
 
   @Column({ unique: true })
@@ -49,8 +49,8 @@ export class User {
   @Column()
   password: string;
 
-  @Column({nullable:true})
-  profileImg:string
+  @Column({ nullable: true })
+  profileImg: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -65,15 +65,16 @@ export class User {
   @JoinColumn({ name: 'role_id' })
   roles: Roles;
 
+  @OneToMany(() => Discussion, (disscussion) => disscussion.user)
+  discussions: Discussion[];
 
-  @OneToMany(()=> Discussion, (disscussion)=> disscussion.user)
-  discussions:Discussion[]
+  @OneToMany(() => Likes, (likes) => likes.users)
+  likes: Likes[];
 
-  @OneToMany(()=> Likes, (likes)=> likes.users)
-  likes:Likes[]
-
-  @OneToMany(()=>Submission, (submission)=> submission.user  ,{cascade:true})
-  submissions: Submission[]
+  @OneToMany(() => Submission, (submission) => submission.user, {
+    cascade: true,
+  })
+  submissions: Submission[];
 
   @BeforeInsert()
   public async hashpass() {

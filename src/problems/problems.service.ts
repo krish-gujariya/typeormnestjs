@@ -2,7 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
 import { Repository } from 'typeorm';
-import { catchError, noRecorFound, returnObjectFunction } from 'src/helper/genralFunction';
+import {
+  catchError,
+  noRecorFound,
+  returnObjectFunction,
+} from 'src/helper/genralFunction';
 import { Difficulty, Problem } from './entities/problem.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Categories } from './entities/categories.entity';
@@ -15,10 +19,9 @@ export class ProblemsService {
   ) {}
   async create(createProblemDto: CreateProblemDto) {
     try {
-    
-        const data = this.problemRepo.create(createProblemDto);
-        console.log(data);
-        
+      const data = this.problemRepo.create(createProblemDto);
+      console.log(data);
+
       await this.problemRepo.save(data);
       return returnObjectFunction(true, 201, `Problem created successfully...`);
     } catch (error) {
@@ -58,15 +61,13 @@ export class ProblemsService {
         );
       }
     } catch (error) {
-      console.log(error);
-
       return catchError(error);
     }
   }
 
   async findById(id: number) {
     try {
-      console.log("asgvyashdgvkahfvajsd");
+      console.log('asgvyashdgvkahfvajsd');
       const data = await this.problemRepo.findOneBy({ id });
       if (data) {
         return returnObjectFunction(true, 201, undefined, data);

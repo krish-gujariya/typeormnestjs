@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Discussion } from './entities/discussion.entity';
 
 @Module({
-  imports:[UsersModule, TypeOrmModule.forFeature([Discussion])],
+  imports: [UsersModule, TypeOrmModule.forFeature([Discussion])],
   controllers: [DiscussionsController],
   providers: [DiscussionsService],
 })

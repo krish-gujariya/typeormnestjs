@@ -1,12 +1,12 @@
-import { Request } from "express";
+import { Request } from 'express';
 
-export interface tempI{
-    name:string
+export interface tempI {
+  name: string;
 }
 
-export interface IRequest extends Request{
-    user:{
-        id:number,
-        role_id:number
-    }
+export interface IRequest extends Request {
+  user: {
+    id: number;
+    role_id: number;
+  };
 }

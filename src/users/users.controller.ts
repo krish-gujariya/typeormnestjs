@@ -38,7 +38,7 @@ import { profilepicDTO, UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/utils/file.validator';
 
-@ApiTags("User")
+@ApiTags('User')
 @Controller('users')
 export class UsersController {
   constructor(
@@ -101,7 +101,7 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     console.log(updateUserDto);
-    
+
     const id = req.user.id;
     const data = await this.usersService.update(id, updateUserDto);
     return fetchResponseFunc(res, data, data.message);
@@ -110,13 +110,16 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGaurd)
   @Post('profile/pic')
-  @ApiBody({type: profilepicDTO})
+  @ApiBody({ type: profilepicDTO })
   @ApiConsumes('multipart/form-data')
-
-  @UseInterceptors(FileInterceptor('file', multerOptions("profilePic")))
-  async uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req:IRequest, @Res() res:Response) {
-    const id = req.user.id
-    const data =await this.usersService.profilePicUpload(file.path,id )
-    return fetchResponseFunc(res,data, data.message);
+  @UseInterceptors(FileInterceptor('file', multerOptions('profilePic')))
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: IRequest,
+    @Res() res: Response,
+  ) {
+    const id = req.user.id;
+    const data = await this.usersService.profilePicUpload(file.path, id);
+    return fetchResponseFunc(res, data, data.message);
   }
 }

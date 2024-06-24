@@ -10,14 +10,17 @@ import { catchError, returnObjectFunction } from 'src/helper/genralFunction';
 export class LikesService {
   constructor(
     @InjectRepository(Likes)
-    private likeRepo: Repository<Likes>
-  ){}
+    private likeRepo: Repository<Likes>,
+  ) {}
   async create(createLikeDto: CreateLikeDto) {
     try {
-      const data =  this.likeRepo.create(createLikeDto);
+      const data = this.likeRepo.create(createLikeDto);
       await this.likeRepo.save(data);
-      return returnObjectFunction(true,201,`Like data inserted successfully...`)
-
+      return returnObjectFunction(
+        true,
+        201,
+        `Like data inserted successfully...`,
+      );
     } catch (error) {
       return catchError(error);
     }
@@ -30,6 +33,4 @@ export class LikesService {
   findOne(id: number) {
     return `This action returns a #${id} like`;
   }
-
- 
 }

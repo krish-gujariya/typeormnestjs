@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import typeorm,{ connectionSource } from './datasource/typeorm.module';
+import typeorm, { connectionSource } from './datasource/typeorm.module';
 import { ProblemsModule } from './problems/problems.module';
 import { DiscussionsModule } from './discussions/discussions.module';
 import { LikesModule } from './likes/likes.module';
@@ -26,21 +26,17 @@ import { SubmissionsModule } from './submissions/submissions.module';
       useFactory: async (configService: ConfigService) =>
         configService.get('typeorm'),
     }),
-    RouterModule.register([
-      
-    ]),
+    RouterModule.register([]),
 
     UsersModule,
 
     ProblemsModule,
-
 
     DiscussionsModule,
 
     LikesModule,
 
     SubmissionsModule,
-
   ],
   controllers: [AppController],
   providers: [AppService],

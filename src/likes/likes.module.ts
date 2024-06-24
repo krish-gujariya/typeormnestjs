@@ -6,7 +6,7 @@ import { Likes } from './entities/like.entity';
 import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Likes]), UsersModule],
+  imports: [TypeOrmModule.forFeature([Likes]), UsersModule],
   controllers: [LikesController],
   providers: [LikesService],
 })

@@ -1,34 +1,42 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Problem } from "./problem.entity";
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Problem } from './problem.entity';
 
-@Entity("testcases")
-export class TestCases{
-    @PrimaryGeneratedColumn()
-    id:number
-    
-    @Column()
-    problem_id: number
+@Entity('testcases')
+export class TestCases {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    input:string
+  @Column()
+  problem_id: number;
 
-    @Column()
-    output:string
+  @Column()
+  input: string;
 
-    @Column({default:false})
-    visibility:boolean
+  @Column()
+  output: string;
 
-    @CreateDateColumn()
-    createdAt: Date;
-  
-    @UpdateDateColumn()
-    updatedAt: Date;
-  
-    @DeleteDateColumn()
-    deletedAt: Date;
-  
+  @Column({ default: false })
+  visibility: boolean;
 
-    @ManyToOne(()=> Problem)
-    @JoinColumn({name:"problem_id"})
-    problem: Problem
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
+
+  @ManyToOne(() => Problem)
+  @JoinColumn({ name: 'problem_id' })
+  problem: Problem;
 }
